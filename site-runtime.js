@@ -1147,8 +1147,9 @@ initializeViewportStability();save();render();updateScroll();
   function ready(){
     if(revealed||!main.firstElementChild)return;
     revealed=true;observer.disconnect();
-    Promise.resolve(window.TGNLoadingStylesReady).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    Promise.resolve(window.TGNLoadingStylesReady).then(()=>document.fonts?.ready).then(()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
       main.removeAttribute('aria-busy');document.documentElement.classList.add('tgn-ready');
+      screen.dispatchEvent(new Event('tgn:loading-ready'));
       screen.setAttribute('aria-hidden','true');screen.inert=true;screen.style.opacity='0';
       const remove=()=>screen.remove();
       if(matchMedia('(prefers-reduced-motion:reduce)').matches)remove();
